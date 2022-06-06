@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-blue bg-dark">
+<nav class="navbar navbar-expand-lg navbar-blue bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'homepage' %}">My site</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,10 +9,24 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'homepage' %}">Главная</a>
         </li>
+        {% if request.user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'add_news' %}">Добавить новость</a>
         </li>
+          {% if request.user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'AdMailto' %}">Отправить письмо</a>
+          </li>
+          {% endif %}
+        {% endif %}
       </ul>
+      <li class="navbar-text">
+        {% if request.user.is_authenticated %}
+        Вход выполнен для {{ user }} | <a href="{% url 'logout' %}">Выйти</a>
+        {% else %}
+        <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
+        {% endif %}
+      </li>
     </div>
   </div>
 </nav>
